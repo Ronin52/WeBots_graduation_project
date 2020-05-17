@@ -1,0 +1,393 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.07457552102522304 -0.9555755196682767 -0.28515595360174306 2.651809905699875
+  position 0.6794879598426324 1.991757347235837 -1.5434205743995593
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 15 10
+  wallHeight 2
+}
+RectangleArena {
+  translation 2.5 0 0
+  name "rectangle arena(1)"
+  floorSize 10 5
+  wallHeight 2
+}
+RectangleArena {
+  translation -6.25 0 0
+  name "rectangle arena(2)"
+  floorSize 2.5 5
+  wallHeight 2
+}
+Robot {
+  translation 1.68061 0.06 0.3124
+  rotation 0 1 0 3.14159
+  children [
+    DEF PLATFORM Shape {
+      appearance PBRAppearance {
+        baseColor 0.886275 0.823529 0.886275
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.4 0.005 0.4
+      }
+    }
+    DEF BODY Solid {
+      translation 2.57125e-07 0.160006 -0.049997
+      rotation 0 0 1 1.5708
+      children [
+        DEF STICK1 Solid {
+          translation 0.328 -0.155 0.147
+          rotation -0.016949705017968317 0.9970414716451949 -0.07497340408030169 -1.38388
+          children [
+            DEF STICK1_SHAPE Shape {
+              appearance DEF STICK_COLOR PBRAppearance {
+                baseColor 0.443137 0.431373 0.447059
+                roughness 1
+                metalness 0
+              }
+              geometry Box {
+                size 0.006 0.005 1
+              }
+            }
+          ]
+          name "stick1"
+        }
+        DEF STICK2 Solid {
+          translation 0.327 0.154 0.148
+          rotation 0.015039718542295452 0.9970551531988499 0.07519859271147726 -1.38
+          children [
+            DEF STICK2_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 1
+              }
+            }
+          ]
+          name "stick2"
+        }
+        DEF STICK3 Solid {
+          translation 0.195 -0.163 -0.02
+          rotation -0.05014370195119564 0.9982887500369301 0.030086221170717384 1.23664
+          children [
+            DEF STICK3_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.75
+              }
+            }
+          ]
+          name "stick3"
+        }
+        DEF STICK4 Solid {
+          translation 0.192 0.1646 -0.017
+          rotation 0.06992636973228512 0.9975019914833652 -0.010003989343473154 1.24
+          children [
+            DEF STICK4_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.75
+              }
+            }
+          ]
+          name "stick4"
+        }
+        DEF STICK5 Solid {
+          translation 0.814 5.68543e-06 0.0513
+          rotation 1 0 0 1.5708
+          children [
+            DEF STICK5_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.23
+              }
+            }
+          ]
+          name "stick5"
+        }
+        DEF STICK6 Solid {
+          translation 0.663 5.50178e-06 0.083
+          rotation 1 0 0 1.5708
+          children [
+            DEF STICK6_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.25
+              }
+            }
+          ]
+          name "stick6"
+        }
+        DEF STICK7 Solid {
+          translation 0.05 -1.73472e-18 0.203
+          children [
+            DEF STICK7_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.35 0.005
+              }
+            }
+          ]
+          name "stick7"
+        }
+        DEF STICK8 Solid {
+          translation 0.05 -0.177 0.067
+          children [
+            DEF STICK8_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.277
+              }
+            }
+          ]
+          name "stick8"
+        }
+        DEF STICK9 Solid {
+          translation 0.05 0.176 0.068
+          children [
+            DEF STICK9_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.275
+              }
+            }
+          ]
+          name "stick9"
+        }
+        DEF STICK10 Solid {
+          translation 0.05 5.93452e-06 -0.071
+          rotation 1 0 0 -1.5707953071795862
+          children [
+            DEF STICK10_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.36
+              }
+            }
+          ]
+          name "stick10"
+        }
+        DEF STICK11 Solid {
+          translation 0.814 5.75683e-06 -0.0187
+          rotation 1 0 0 -1.5707953071795862
+          children [
+            DEF STICK11_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.23
+              }
+            }
+          ]
+          name "stick11"
+        }
+        DEF STICK12 Solid {
+          translation 0.814 -0.1124 0.018
+          rotation 1 0 0 0
+          children [
+            DEF STICK12_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.07
+              }
+            }
+          ]
+          name "stick12"
+        }
+        DEF STICK13 Solid {
+          translation 0.814 0.1124 0.018
+          rotation 1 0 0 -3.141592653589793
+          children [
+            DEF STICK13_SHAPE Shape {
+              appearance USE STICK_COLOR
+              geometry Box {
+                size 0.005 0.005 0.07
+              }
+            }
+          ]
+          name "stick13"
+        }
+      ]
+      name "body"
+    }
+    DEF LEFT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor 0.21000000000000002 0.02001575013180831 0.12000298566597725
+      }
+      device [
+        RotationalMotor {
+          name "leftWheel"
+        }
+      ]
+      endPoint Solid {
+        translation 0.20999998742701242 0.020020522592987266 0.1200037860855617
+        rotation 1 0 0 0
+        children [
+          DEF RUNNING_WHEEL Transform {
+            rotation 0 0 1 -1.5707996938995747
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.196078 0.215686 0.215686
+                  roughness 1
+                  metalness 0
+                }
+                geometry Cylinder {
+                  height 0.02
+                  radius 0.054
+                  subdivision 24
+                }
+              }
+            ]
+            rotationStep 0
+          }
+        ]
+        name "LEFT_WHEEL"
+        boundingObject USE RUNNING_WHEEL
+        physics DEF WHEEL_PHYSICS Physics {
+          density -1
+          mass 0.1
+        }
+      }
+    }
+    DEF RIGHT_WHEEL HingeJoint {
+      jointParameters HingeJointParameters {
+        anchor -0.21 0.020016253149629196 0.1200029848027208
+      }
+      device [
+        RotationalMotor {
+          name "rightWheel"
+        }
+      ]
+      endPoint Solid {
+        translation -0.21000001223994724 0.020021304728196167 0.12000374235452028
+        rotation 1 0 0 0
+        children [
+          USE RUNNING_WHEEL
+        ]
+        name "RIGHT_WHEEL"
+        boundingObject USE RUNNING_WHEEL
+        physics USE WHEEL_PHYSICS
+      }
+    }
+    DEF BACK_WHEEL_JOINT Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 0.01 -0.0199822 -0.189997
+      }
+      endPoint Solid {
+        translation 0.01 -0.0199822 -0.189997
+        rotation -9.736269999999913e-08 -9.742139999999916e-08 -0.9999999999999905 1.570795307179595
+        children [
+          DEF BACK_WHEEL Transform {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.196078 0.215686 0.215686
+                  roughness 1
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.017
+                  subdivision 5
+                  ico FALSE
+                }
+              }
+            ]
+          }
+        ]
+        name "BACK_WHEEL"
+        boundingObject USE BACK_WHEEL
+        physics Physics {
+          density -1
+          mass 0.01
+        }
+      }
+    }
+    DEF DS_FC DistanceSensor {
+      translation -5.38736e-07 0.21 0.16
+      rotation 0 1 0 -1.5707996938995747
+      children [
+        DEF DS_SENSOR_SHAPE Shape {
+          appearance PBRAppearance {
+            roughness 1
+            metalness 0
+          }
+          geometry Box {
+            size 0.01 0.01 0.02
+          }
+        }
+      ]
+      name "ds-fc"
+    }
+    DEF DS_FL DistanceSensor {
+      translation 0.099999 0.21 0.16
+      rotation 0 1 0 -1.5707996938995747
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-fl"
+    }
+    DEF DS_FR DistanceSensor {
+      translation -0.1 0.21 0.16
+      rotation 0 1 0 -1.5707996938995747
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-fr"
+    }
+    DEF DS_LF DistanceSensor {
+      translation 0.183 0.21 0.11
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-lf"
+    }
+    DEF DS_LB DistanceSensor {
+      translation 0.183 0.21 -0.07
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-lb"
+    }
+    DEF DS_RF DistanceSensor {
+      translation -0.181 0.21 0.11
+      rotation 0 1 0 3.141592653589793
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-rf"
+    }
+    DEF DS_RB DistanceSensor {
+      translation -0.181 0.21 -0.07
+      rotation 0 1 0 -3.141592653589793
+      children [
+        USE DS_SENSOR_SHAPE
+      ]
+      name "ds-rb"
+    }
+    Receiver {
+    }
+  ]
+  name "elc-bot"
+  boundingObject USE PLATFORM
+  physics Physics {
+    density -1
+    mass 1
+  }
+  controller "ELCController"
+}
+DEF DRIVER Robot {
+  children [
+    Emitter {
+    }
+  ]
+  name "Driver"
+  controller "driver"
+  supervisor TRUE
+}
