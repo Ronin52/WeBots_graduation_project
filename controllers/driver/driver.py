@@ -2,7 +2,7 @@ from controller import Supervisor
 
 
 class Driver (Supervisor):
-    timeStep = 128
+    timeStep = 32
 
     def __init__(self):
         super(Driver, self).__init__()
