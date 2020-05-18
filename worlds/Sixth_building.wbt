@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.06175105059442771 -0.9718082333560687 -0.22754244731882733 2.625871903421579
-  position -4.761441068906693 1.381722562412269 -4.582074337109601
+  orientation 0 1 0 0
+  position -3.7302235829184 0.9055229947627857 0.021150540849332433
 }
 TexturedBackground {
 }
@@ -12,6 +12,10 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 15 10
   wallHeight 2
+}
+WoodenBox {
+  translation -3.89 1.48 -3.62
+  mass 1
 }
 RectangleArena {
   translation 2.5 0 0
@@ -26,7 +30,7 @@ RectangleArena {
   wallHeight 2
 }
 Robot {
-  translation -3.87939 0.06 -3.07761
+  translation -3.87939 0.06 -3.53761
   rotation 0 1 0 3.14159
   children [
     DEF PLATFORM Shape {
@@ -59,6 +63,7 @@ Robot {
             }
           ]
           name "stick1"
+          boundingObject USE STICK1_SHAPE
         }
         DEF STICK2 Solid {
           translation 0.327 0.154 0.148
@@ -72,6 +77,7 @@ Robot {
             }
           ]
           name "stick2"
+          boundingObject USE STICK2_SHAPE
         }
         DEF STICK3 Solid {
           translation 0.195 -0.163 -0.02
@@ -85,6 +91,7 @@ Robot {
             }
           ]
           name "stick3"
+          boundingObject USE STICK3_SHAPE
         }
         DEF STICK4 Solid {
           translation 0.192 0.1646 -0.017
@@ -98,6 +105,7 @@ Robot {
             }
           ]
           name "stick4"
+          boundingObject USE STICK4_SHAPE
         }
         DEF STICK5 Solid {
           translation 0.814 5.68543e-06 0.0513
@@ -111,6 +119,7 @@ Robot {
             }
           ]
           name "stick5"
+          boundingObject USE STICK5_SHAPE
         }
         DEF STICK6 Solid {
           translation 0.663 5.50178e-06 0.083
@@ -124,6 +133,7 @@ Robot {
             }
           ]
           name "stick6"
+          boundingObject USE STICK6_SHAPE
         }
         DEF STICK7 Solid {
           translation 0.05 -1.73472e-18 0.203
@@ -136,6 +146,7 @@ Robot {
             }
           ]
           name "stick7"
+          boundingObject USE STICK7_SHAPE
         }
         DEF STICK8 Solid {
           translation 0.05 -0.177 0.067
@@ -148,6 +159,7 @@ Robot {
             }
           ]
           name "stick8"
+          boundingObject USE STICK8_SHAPE
         }
         DEF STICK9 Solid {
           translation 0.05 0.176 0.068
@@ -160,6 +172,7 @@ Robot {
             }
           ]
           name "stick9"
+          boundingObject USE STICK9_SHAPE
         }
         DEF STICK10 Solid {
           translation 0.05 5.93452e-06 -0.071
@@ -173,6 +186,7 @@ Robot {
             }
           ]
           name "stick10"
+          boundingObject USE STICK10_SHAPE
         }
         DEF STICK11 Solid {
           translation 0.814 5.75683e-06 -0.0187
@@ -186,6 +200,7 @@ Robot {
             }
           ]
           name "stick11"
+          boundingObject USE STICK11_SHAPE
         }
         DEF STICK12 Solid {
           translation 0.814 -0.1124 0.018
@@ -199,6 +214,7 @@ Robot {
             }
           ]
           name "stick12"
+          boundingObject USE STICK12_SHAPE
         }
         DEF STICK13 Solid {
           translation 0.814 0.1124 0.018
@@ -212,6 +228,7 @@ Robot {
             }
           ]
           name "stick13"
+          boundingObject USE STICK13_SHAPE
         }
       ]
       name "body"
@@ -306,7 +323,7 @@ Robot {
       }
     }
     DEF DS_FC DistanceSensor {
-      translation -5.38736e-07 0.21 0.16
+      translation -5.38735e-07 0.21 0.16
       rotation 0 1 0 -1.5707996938995747
       children [
         DEF DS_SENSOR_SHAPE Shape {
@@ -320,6 +337,10 @@ Robot {
         }
       ]
       name "ds_fc"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_FL DistanceSensor {
       translation 0.099999 0.21 0.16
