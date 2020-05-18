@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.9999997735926566 -0.0005466878081678941 -0.0003923608997661417 4.712379832021662
-  position -3.8794655563482148 2.8283577583960664 0.22716837504189472
+  orientation -0.4355309254567608 0.0002482043266029217 0.9001737339899392 8.302608235359845e-06
+  position -3.8620789921988927 0.1266347239523162 1.1168435211081464
 }
 TexturedBackground {
 }
@@ -251,7 +251,6 @@ Robot {
         name "left_wheel"
         boundingObject USE RUNNING_WHEEL
         physics DEF WHEEL_PHYSICS Physics {
-          density -1
           mass 0.1
         }
       }
@@ -304,7 +303,6 @@ Robot {
         name "BACK_WHEEL"
         boundingObject USE BACK_WHEEL
         physics Physics {
-          density -1
           mass 0.01
         }
       }
@@ -377,7 +375,7 @@ Robot {
   name "elc-bot"
   boundingObject USE PLATFORM
   physics Physics {
-    density -1
+    density 1000
     mass 1
   }
   controller "ELCController"
