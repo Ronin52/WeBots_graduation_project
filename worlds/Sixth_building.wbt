@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0 1 0 0
-  position -3.7302235829184 0.9055229947627857 0.021150540849332433
+  position -3.7302235829184 0.9055229947627857 0.3331272594184112
 }
 TexturedBackground {
 }
@@ -12,10 +12,6 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 15 10
   wallHeight 2
-}
-WoodenBox {
-  translation -3.89 1.48 -3.62
-  mass 1
 }
 RectangleArena {
   translation 2.5 0 0
