@@ -29,6 +29,8 @@ class Driver (Supervisor):
                 message = 'D'
             elif k == ord(' '):
                message = 'STOP'
+            elif k == ord('G'):
+               message = 'GET'
             
             # Send a new message through the emitter device.
             if message != '' and message != previous_message:

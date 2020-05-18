@@ -1,4 +1,4 @@
-from controller import Robot, DistanceSensor
+from controller import Robot
 
 
 class ELCBot(Robot):
@@ -50,6 +50,8 @@ while elc_bot.step(elc_bot.time_step) != -1:
             mode = "D"
         elif message == 'STOP':
             mode = "STOP"
+        elif message == 'GET':
+            mode = "GET"
     if mode == "W":
         elc_bot.left_motor.setVelocity(5)
         elc_bot.right_motor.setVelocity(5)
@@ -65,3 +67,6 @@ while elc_bot.step(elc_bot.time_step) != -1:
     elif mode == "STOP":
         elc_bot.left_motor.setVelocity(0)
         elc_bot.right_motor.setVelocity(0)
+    elif mode == "GET":
+        print(elc_bot.ds_fc.getValue())
+        mode = "STOP"

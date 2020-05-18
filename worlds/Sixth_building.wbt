@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.4355309254567608 0.0002482043266029217 0.9001737339899392 8.302608235359845e-06
-  position -3.8620789921988927 0.1266347239523162 1.1168435211081464
+  orientation -0.06175105059442771 -0.9718082333560687 -0.22754244731882733 2.625871903421579
+  position -4.761441068906693 1.381722562412269 -4.582074337109601
 }
 TexturedBackground {
 }
@@ -26,7 +26,7 @@ RectangleArena {
   wallHeight 2
 }
 Robot {
-  translation -3.87939 0.06 0.312386
+  translation -3.87939 0.06 -3.07761
   rotation 0 1 0 3.14159
   children [
     DEF PLATFORM Shape {
@@ -251,7 +251,6 @@ Robot {
         name "left_wheel"
         boundingObject USE RUNNING_WHEEL
         physics DEF WHEEL_PHYSICS Physics {
-          mass 0.1
         }
       }
     }
@@ -303,7 +302,6 @@ Robot {
         name "BACK_WHEEL"
         boundingObject USE BACK_WHEEL
         physics Physics {
-          mass 0.01
         }
       }
     }
@@ -375,7 +373,6 @@ Robot {
   name "elc-bot"
   boundingObject USE PLATFORM
   physics Physics {
-    density 1000
     mass 1
   }
   controller "ELCController"
