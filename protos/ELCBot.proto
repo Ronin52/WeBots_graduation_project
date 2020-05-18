@@ -38,6 +38,7 @@ PROTO ELCBot [
             }
           ]
           name "stick1"
+          boundingObject USE STICK1_SHAPE
         }
         DEF STICK2 Solid {
           translation 0.327 0.154 0.148
@@ -51,6 +52,7 @@ PROTO ELCBot [
             }
           ]
           name "stick2"
+          boundingObject USE STICK2_SHAPE
         }
         DEF STICK3 Solid {
           translation 0.195 -0.163 -0.02
@@ -64,6 +66,7 @@ PROTO ELCBot [
             }
           ]
           name "stick3"
+          boundingObject USE STICK3_SHAPE
         }
         DEF STICK4 Solid {
           translation 0.192 0.1646 -0.017
@@ -77,6 +80,7 @@ PROTO ELCBot [
             }
           ]
           name "stick4"
+          boundingObject USE STICK4_SHAPE
         }
         DEF STICK5 Solid {
           translation 0.814 5.68543e-06 0.0513
@@ -90,6 +94,7 @@ PROTO ELCBot [
             }
           ]
           name "stick5"
+          boundingObject USE STICK5_SHAPE
         }
         DEF STICK6 Solid {
           translation 0.663 5.50178e-06 0.083
@@ -103,6 +108,7 @@ PROTO ELCBot [
             }
           ]
           name "stick6"
+          boundingObject USE STICK6_SHAPE
         }
         DEF STICK7 Solid {
           translation 0.05 -1.73472e-18 0.203
@@ -115,6 +121,7 @@ PROTO ELCBot [
             }
           ]
           name "stick7"
+          boundingObject USE STICK7_SHAPE
         }
         DEF STICK8 Solid {
           translation 0.05 -0.177 0.067
@@ -127,6 +134,7 @@ PROTO ELCBot [
             }
           ]
           name "stick8"
+          boundingObject USE STICK8_SHAPE
         }
         DEF STICK9 Solid {
           translation 0.05 0.176 0.068
@@ -139,6 +147,7 @@ PROTO ELCBot [
             }
           ]
           name "stick9"
+          boundingObject USE STICK9_SHAPE
         }
         DEF STICK10 Solid {
           translation 0.05 5.93452e-06 -0.071
@@ -152,6 +161,7 @@ PROTO ELCBot [
             }
           ]
           name "stick10"
+          boundingObject USE STICK10_SHAPE
         }
         DEF STICK11 Solid {
           translation 0.814 5.75683e-06 -0.0187
@@ -165,6 +175,7 @@ PROTO ELCBot [
             }
           ]
           name "stick11"
+          boundingObject USE STICK11_SHAPE
         }
         DEF STICK12 Solid {
           translation 0.814 -0.1124 0.018
@@ -178,6 +189,7 @@ PROTO ELCBot [
             }
           ]
           name "stick12"
+          boundingObject USE STICK12_SHAPE
         }
         DEF STICK13 Solid {
           translation 0.814 0.1124 0.018
@@ -191,6 +203,7 @@ PROTO ELCBot [
             }
           ]
           name "stick13"
+          boundingObject USE STICK13_SHAPE
         }
       ]
       name "body"
@@ -201,7 +214,7 @@ PROTO ELCBot [
       }
       device [
         RotationalMotor {
-          name "leftWheel"
+          name "left_wheel_motor"
         }
       ]
       endPoint Solid {
@@ -227,11 +240,9 @@ PROTO ELCBot [
             rotationStep 0
           }
         ]
-        name "LEFT_WHEEL"
+        name "left_wheel"
         boundingObject USE RUNNING_WHEEL
         physics DEF WHEEL_PHYSICS Physics {
-          density -1
-          mass 0.1
         }
       }
     }
@@ -241,7 +252,7 @@ PROTO ELCBot [
       }
       device [
         RotationalMotor {
-          name "rightWheel"
+          name "right_wheel_motor"
         }
       ]
       endPoint Solid {
@@ -283,13 +294,11 @@ PROTO ELCBot [
         name "BACK_WHEEL"
         boundingObject USE BACK_WHEEL
         physics Physics {
-          density -1
-          mass 0.01
         }
       }
     }
     DEF DS_FC DistanceSensor {
-      translation -5.38736e-07 0.21 0.16
+      translation -5.38735e-07 0.21 0.16
       rotation 0 1 0 -1.5707996938995747
       children [
         DEF DS_SENSOR_SHAPE Shape {
@@ -302,7 +311,11 @@ PROTO ELCBot [
           }
         }
       ]
-      name "ds-fc"
+      name "ds_fc"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_FL DistanceSensor {
       translation 0.099999 0.21 0.16
@@ -310,7 +323,7 @@ PROTO ELCBot [
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-fl"
+      name "ds_fl"
     }
     DEF DS_FR DistanceSensor {
       translation -0.1 0.21 0.16
@@ -318,21 +331,21 @@ PROTO ELCBot [
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-fr"
+      name "ds_fr"
     }
     DEF DS_LF DistanceSensor {
       translation 0.183 0.21 0.11
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-lf"
+      name "ds_lf"
     }
     DEF DS_LB DistanceSensor {
       translation 0.183 0.21 -0.07
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-lb"
+      name "ds_lb"
     }
     DEF DS_RF DistanceSensor {
       translation -0.181 0.21 0.11
@@ -340,7 +353,7 @@ PROTO ELCBot [
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-rf"
+      name "ds_rf"
     }
     DEF DS_RB DistanceSensor {
       translation -0.181 0.21 -0.07
@@ -348,7 +361,7 @@ PROTO ELCBot [
       children [
         USE DS_SENSOR_SHAPE
       ]
-      name "ds-rb"
+      name "ds_rb"
     }
     Receiver {
     }
@@ -356,7 +369,6 @@ PROTO ELCBot [
   name "elc-bot"
   boundingObject USE PLATFORM
   physics Physics {
-    density -1
     mass IS bodyMass
   }
   controller "ELCController"
