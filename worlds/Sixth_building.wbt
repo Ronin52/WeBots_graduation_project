@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 0 1 0 0
-  position -3.7302235829184 0.9055229947627857 0.3331272594184112
+  orientation 1 0 0 4.71238898038469
+  position -3.889390504174065 1.0050207756639353 -3.3476130265365667
 }
 TexturedBackground {
 }
@@ -231,7 +231,7 @@ Robot {
     }
     DEF LEFT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.21000000000000002 0.02001575013180831 0.12000298566597725
+        anchor 0.19 0.0200158 0.120003
       }
       device [
         RotationalMotor {
@@ -239,7 +239,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.20999998742701242 0.020020522592987266 0.1200037860855617
+        translation 0.21 0.0200205 0.120004
         rotation 1 0 0 0
         children [
           DEF RUNNING_WHEEL Transform {
@@ -269,7 +269,7 @@ Robot {
     }
     DEF RIGHT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        anchor -0.21 0.020016253149629196 0.1200029848027208
+        anchor -0.19 0.0200163 0.120003
       }
       device [
         RotationalMotor {
@@ -277,7 +277,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.21000001223994724 0.020021304728196167 0.12000374235452028
+        translation -0.21 0.0200213 0.120004
         rotation 1 0 0 0
         children [
           USE RUNNING_WHEEL
@@ -289,11 +289,11 @@ Robot {
     }
     DEF BACK_WHEEL_JOINT Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 0.01 -0.0199822 -0.189997
+        anchor 0.01 -0.0199822 -0.19
       }
       endPoint Solid {
-        translation 0.01 -0.0199822 -0.189997
-        rotation -9.736269999999913e-08 -9.742139999999916e-08 -0.9999999999999905 1.570795307179595
+        translation 0.009999999999999998 -0.0199822 -0.189997
+        rotation -9.736269993865529e-08 -9.742139999477373e-08 -0.9999999999999905 1.5707953071795946
         children [
           DEF BACK_WHEEL Transform {
             children [
