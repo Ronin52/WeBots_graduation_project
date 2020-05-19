@@ -1,7 +1,7 @@
 from controller import Supervisor
 
 
-class Driver (Supervisor):
+class Driver(Supervisor):
     timeStep = 32
 
     def __init__(self):
@@ -28,10 +28,8 @@ class Driver (Supervisor):
             elif k == ord('D'):
                 message = 'D'
             elif k == ord(' '):
-               message = 'STOP'
-            elif k == ord('G'):
-               message = 'GET'
-            
+                message = 'STOP'
+
             # Send a new message through the emitter device.
             if message != '' and message != previous_message:
                 previous_message = message

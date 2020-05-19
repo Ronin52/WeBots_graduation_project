@@ -33,7 +33,7 @@ class ELCBot(Robot):
 
 elc_bot = ELCBot()
 
-mode = "STOP"
+message = "STOP"
 
 while elc_bot.step(elc_bot.time_step) != -1:
     if elc_bot.receiver.getQueueLength() > 0:
@@ -41,32 +41,17 @@ while elc_bot.step(elc_bot.time_step) != -1:
         elc_bot.receiver.nextPacket()
         print('I DO ' + message + '!')
         if message == 'W':
-            mode = "W"
+            elc_bot.left_motor.setVelocity(5)
+            elc_bot.right_motor.setVelocity(5)
         elif message == 'A':
-            mode = "A"
+            elc_bot.left_motor.setVelocity(-5)
+            elc_bot.right_motor.setVelocity(5)
         elif message == 'S':
-            mode = "S"
+            elc_bot.left_motor.setVelocity(-5)
+            elc_bot.right_motor.setVelocity(-5)
         elif message == 'D':
-            mode = "D"
+            elc_bot.left_motor.setVelocity(5)
+            elc_bot.right_motor.setVelocity(-5)
         elif message == 'STOP':
-            mode = "STOP"
-        elif message == 'GET':
-            mode = "GET"
-    if mode == "W":
-        elc_bot.left_motor.setVelocity(5)
-        elc_bot.right_motor.setVelocity(5)
-    elif mode == "A":
-        elc_bot.left_motor.setVelocity(-5)
-        elc_bot.right_motor.setVelocity(5)
-    elif mode == "S":
-        elc_bot.left_motor.setVelocity(-5)
-        elc_bot.right_motor.setVelocity(-5)
-    elif mode == "D":
-        elc_bot.left_motor.setVelocity(5)
-        elc_bot.right_motor.setVelocity(-5)
-    elif mode == "STOP":
-        elc_bot.left_motor.setVelocity(0)
-        elc_bot.right_motor.setVelocity(0)
-    elif mode == "GET":
-        print(elc_bot.ds_fc.getValue())
-        mode = "STOP"
+            elc_bot.left_motor.setVelocity(0)
+            elc_bot.right_motor.setVelocity(0)
