@@ -1,0 +1,54 @@
+DEF BACK_WHEEL_JOINT HingeJoint {
+  jointParameters HingeJointParameters {
+    axis 0 0 1
+    anchor 0.1695 -0.102 -0.0335
+  }
+  endPoint Solid {
+    translation 0.1695 -0.102 -0.0335
+    rotation 0 0 1 0
+    children [
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 1 0
+          anchor -0.016 0 -0.04
+        }
+        endPoint DEF SMALL_WHEEL Solid {
+        ...
+        }
+      }
+      ...
+    ]
+  }
+}
+
+    DEF BACK_WHEEL_JOINT Hinge2Joint {
+      jointParameters HingeJointParameters {
+        anchor 0.01 -0.0199822 -0.19
+      }
+      endPoint Solid {
+        translation 0.009999999999999998 -0.0199822 -0.189997
+        rotation -9.736269993865529e-08 -9.742139999477373e-08 -0.9999999999999905 1.5707953071795946
+        children [
+          DEF BACK_WHEEL Transform {
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.196078 0.215686 0.215686
+                  roughness 1
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.017
+                  subdivision 5
+                  ico FALSE
+                }
+              }
+            ]
+          }
+        ]
+        name "BACK_WHEEL"
+        boundingObject USE BACK_WHEEL
+        physics Physics {
+        }
+      }
+    }

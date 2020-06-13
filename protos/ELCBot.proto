@@ -33,7 +33,7 @@ PROTO ELCBot [
                 metalness 0
               }
               geometry Box {
-                size 0.006 0.005 1
+                size 0.01 0.01 1
               }
             }
           ]
@@ -47,7 +47,7 @@ PROTO ELCBot [
             DEF STICK2_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 1
+                size 0.01 0.01 1
               }
             }
           ]
@@ -61,7 +61,7 @@ PROTO ELCBot [
             DEF STICK3_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.75
+                size 0.01 0.01 0.75
               }
             }
           ]
@@ -75,7 +75,7 @@ PROTO ELCBot [
             DEF STICK4_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.75
+                size 0.01 0.01 0.75
               }
             }
           ]
@@ -89,7 +89,7 @@ PROTO ELCBot [
             DEF STICK5_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.23
+                size 0.01 0.01 0.23
               }
             }
           ]
@@ -103,7 +103,7 @@ PROTO ELCBot [
             DEF STICK6_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.25
+                size 0.01 0.01 0.25
               }
             }
           ]
@@ -116,7 +116,7 @@ PROTO ELCBot [
             DEF STICK7_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.35 0.005
+                size 0.01 0.35 0.01
               }
             }
           ]
@@ -129,7 +129,7 @@ PROTO ELCBot [
             DEF STICK8_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.277
+                size 0.01 0.01 0.277
               }
             }
           ]
@@ -142,7 +142,7 @@ PROTO ELCBot [
             DEF STICK9_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.275
+                size 0.01 0.01 0.275
               }
             }
           ]
@@ -156,7 +156,7 @@ PROTO ELCBot [
             DEF STICK10_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.36
+                size 0.01 0.01 0.36
               }
             }
           ]
@@ -170,7 +170,7 @@ PROTO ELCBot [
             DEF STICK11_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.23
+                size 0.01 0.01 0.23
               }
             }
           ]
@@ -184,7 +184,7 @@ PROTO ELCBot [
             DEF STICK12_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.07
+                size 0.01 0.01 0.07
               }
             }
           ]
@@ -198,7 +198,7 @@ PROTO ELCBot [
             DEF STICK13_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.07
+                size 0.01 0.01 0.07
               }
             }
           ]
@@ -210,7 +210,7 @@ PROTO ELCBot [
     }
     DEF LEFT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        anchor 0.21000000000000002 0.02001575013180831 0.12000298566597725
+        anchor 0.19 0.0200158 0.120003
       }
       device [
         RotationalMotor {
@@ -218,7 +218,7 @@ PROTO ELCBot [
         }
       ]
       endPoint Solid {
-        translation 0.20999998742701242 0.020020522592987266 0.1200037860855617
+        translation 0.21 0.0200205 0.120004
         rotation 1 0 0 0
         children [
           DEF RUNNING_WHEEL Transform {
@@ -248,7 +248,7 @@ PROTO ELCBot [
     }
     DEF RIGHT_WHEEL HingeJoint {
       jointParameters HingeJointParameters {
-        anchor -0.21 0.020016253149629196 0.1200029848027208
+        anchor -0.19 0.0200163 0.120003
       }
       device [
         RotationalMotor {
@@ -256,7 +256,7 @@ PROTO ELCBot [
         }
       ]
       endPoint Solid {
-        translation -0.21000001223994724 0.020021304728196167 0.12000374235452028
+        translation -0.21 0.0200213 0.120004
         rotation 1 0 0 0
         children [
           USE RUNNING_WHEEL
@@ -268,11 +268,11 @@ PROTO ELCBot [
     }
     DEF BACK_WHEEL_JOINT Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 0.01 -0.0199822 -0.189997
+        anchor 0.01 -0.0199822 -0.19
       }
       endPoint Solid {
-        translation 0.01 -0.0199822 -0.189997
-        rotation -9.736269999999913e-08 -9.742139999999916e-08 -0.9999999999999905 1.570795307179595
+        translation 0.009999999999999998 -0.0199822 -0.189997
+        rotation -9.736269993865529e-08 -9.742139999477373e-08 -0.9999999999999905 1.5707953071795946
         children [
           DEF BACK_WHEEL Transform {
             children [
@@ -307,7 +307,7 @@ PROTO ELCBot [
             metalness 0
           }
           geometry Box {
-            size 0.01 0.01 0.02
+            size 0.01 0.02 0.04
           }
         }
       ]

@@ -3,27 +3,46 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position -3.889390504174065 1.0050207756639353 -3.3476130265365667
+  position -1.9386744164523306 29.753426715483442 -0.039763224870896514
 }
 TexturedBackground {
+  texture "factory"
+  skybox FALSE
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
   floorSize 15 10
+  floorAppearance DEF FLOOR_COLOR PBRAppearance {
+    baseColor 0.403922 0.4 0.27451
+    roughness 1
+    metalness 0
+  }
+  wallThickness 0.25
   wallHeight 2
+  wallAppearance DEF WALL_COLOR PBRAppearance {
+    baseColor 0.886275 0.878431 0.6
+    roughness 1
+    metalness 0
+  }
 }
 RectangleArena {
   translation 2.5 0 0
   name "rectangle arena(1)"
   floorSize 10 5
+  floorAppearance USE FLOOR_COLOR
+  wallThickness 0.25
   wallHeight 2
+  wallAppearance USE WALL_COLOR
 }
 RectangleArena {
   translation -6.25 0 0
   name "rectangle arena(2)"
   floorSize 2.5 5
+  floorAppearance USE FLOOR_COLOR
+  wallThickness 0.25
   wallHeight 2
+  wallAppearance USE WALL_COLOR
 }
 Robot {
   translation -3.87939 0.06 -3.53761
@@ -54,7 +73,7 @@ Robot {
                 metalness 0
               }
               geometry Box {
-                size 0.006 0.005 1
+                size 0.01 0.01 1
               }
             }
           ]
@@ -68,7 +87,7 @@ Robot {
             DEF STICK2_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 1
+                size 0.01 0.01 1
               }
             }
           ]
@@ -82,7 +101,7 @@ Robot {
             DEF STICK3_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.75
+                size 0.01 0.01 0.75
               }
             }
           ]
@@ -96,7 +115,7 @@ Robot {
             DEF STICK4_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.75
+                size 0.01 0.01 0.75
               }
             }
           ]
@@ -110,7 +129,7 @@ Robot {
             DEF STICK5_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.23
+                size 0.01 0.01 0.23
               }
             }
           ]
@@ -124,7 +143,7 @@ Robot {
             DEF STICK6_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.25
+                size 0.01 0.01 0.25
               }
             }
           ]
@@ -137,7 +156,7 @@ Robot {
             DEF STICK7_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.35 0.005
+                size 0.01 0.35 0.01
               }
             }
           ]
@@ -150,7 +169,7 @@ Robot {
             DEF STICK8_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.277
+                size 0.01 0.01 0.277
               }
             }
           ]
@@ -163,7 +182,7 @@ Robot {
             DEF STICK9_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.275
+                size 0.01 0.01 0.275
               }
             }
           ]
@@ -177,7 +196,7 @@ Robot {
             DEF STICK10_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.36
+                size 0.01 0.01 0.36
               }
             }
           ]
@@ -191,7 +210,7 @@ Robot {
             DEF STICK11_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.23
+                size 0.01 0.01 0.23
               }
             }
           ]
@@ -205,7 +224,7 @@ Robot {
             DEF STICK12_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.07
+                size 0.01 0.01 0.07
               }
             }
           ]
@@ -219,7 +238,7 @@ Robot {
             DEF STICK13_SHAPE Shape {
               appearance USE STICK_COLOR
               geometry Box {
-                size 0.005 0.005 0.07
+                size 0.01 0.01 0.07
               }
             }
           ]
@@ -293,7 +312,7 @@ Robot {
       }
       endPoint Solid {
         translation 0.009999999999999998 -0.0199822 -0.189997
-        rotation -9.736269993865529e-08 -9.742139999477373e-08 -0.9999999999999905 1.5707953071795946
+        rotation -9.736269996441467e-08 -9.742139998986723e-08 -0.9999999999999905 1.5707953071795946
         children [
           DEF BACK_WHEEL Transform {
             children [
@@ -328,7 +347,7 @@ Robot {
             metalness 0
           }
           geometry Box {
-            size 0.01 0.01 0.02
+            size 0.01 0.02 0.04
           }
         }
       ]
