@@ -2,14 +2,16 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position -1.9386744164523306 29.753426715483442 -0.039763224870896514
+  orientation -0.047259890402950346 -0.9980676439458289 -0.04034204838035743 1.4150958468988328
+  position -7.4621972235071885 1.035220777548888 4.403386783353297
 }
 TexturedBackground {
   texture "factory"
   skybox FALSE
 }
 TexturedBackgroundLight {
+  texture "factory"
+  castShadows FALSE
 }
 RectangleArena {
   floorSize 15 10
