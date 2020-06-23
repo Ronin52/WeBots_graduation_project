@@ -1,12 +1,11 @@
 PROTO ELCBot [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 1 0 0
-  field SFFloat    bodyMass     1
 ]
 {
   Robot {
-  translation IS translation
-  rotation IS rotation
+  translation is translation
+  rotation is rotation
   children [
     DEF PLATFORM Shape {
       appearance PBRAppearance {
@@ -216,6 +215,9 @@ PROTO ELCBot [
         RotationalMotor {
           name "left_wheel_motor"
         }
+        PositionSensor {
+          name "left_wheel_position_sensor"
+        }
       ]
       endPoint Solid {
         translation 0.21 0.0200205 0.120004
@@ -254,6 +256,9 @@ PROTO ELCBot [
         RotationalMotor {
           name "right_wheel_motor"
         }
+        PositionSensor {
+          name "right_wheel_position_sensor"
+        }
       ]
       endPoint Solid {
         translation -0.21 0.0200213 0.120004
@@ -268,11 +273,10 @@ PROTO ELCBot [
     }
     DEF BACK_WHEEL_JOINT Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 0.01 -0.0199822 -0.19
+        anchor 0.01 -0.02 -0.189997
       }
       endPoint Solid {
-        translation 0.009999999999999998 -0.0199822 -0.189997
-        rotation -9.736269993865529e-08 -9.742139999477373e-08 -0.9999999999999905 1.5707953071795946
+        translation 0.01 -0.02 -0.189997
         children [
           DEF BACK_WHEEL Transform {
             children [
@@ -369,7 +373,7 @@ PROTO ELCBot [
   name "elc-bot"
   boundingObject USE PLATFORM
   physics Physics {
-    mass IS bodyMass
+    mass 1
   }
   controller "ELCController"
 }

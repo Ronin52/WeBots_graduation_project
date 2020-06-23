@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.047259890402950346 -0.9980676439458289 -0.04034204838035743 1.4150958468988328
-  position -7.4621972235071885 1.035220777548888 4.403386783353297
+  orientation 1 0 0 4.71238898038469
+  position -5.38330277570018 7.326863338023087 -3.7119133781893705
 }
 TexturedBackground {
   texture "factory"
@@ -47,7 +47,7 @@ RectangleArena {
   wallAppearance USE WALL_COLOR
 }
 Robot {
-  translation -3.87939 0.06 -3.53761
+  translation -3.77 0.05 -3.54
   rotation 0 1 0 3.14159
   children [
     DEF PLATFORM Shape {
@@ -258,9 +258,12 @@ Robot {
         RotationalMotor {
           name "left_wheel_motor"
         }
+        PositionSensor {
+          name "left_wheel_position_sensor"
+        }
       ]
       endPoint Solid {
-        translation 0.21 0.0200205 0.120004
+        translation 0.21 0.020020500000000042 0.1200039999999998
         rotation 1 0 0 0
         children [
           DEF RUNNING_WHEEL Transform {
@@ -296,9 +299,12 @@ Robot {
         RotationalMotor {
           name "right_wheel_motor"
         }
+        PositionSensor {
+          name "right_wheel_position_sensor"
+        }
       ]
       endPoint Solid {
-        translation -0.21 0.0200213 0.120004
+        translation -0.21 0.020021300000000047 0.12000399999999976
         rotation 1 0 0 0
         children [
           USE RUNNING_WHEEL
@@ -310,11 +316,10 @@ Robot {
     }
     DEF BACK_WHEEL_JOINT Hinge2Joint {
       jointParameters HingeJointParameters {
-        anchor 0.01 -0.0199822 -0.19
+        anchor 0.01 -0.02 -0.189997
       }
       endPoint Solid {
-        translation 0.009999999999999998 -0.0199822 -0.189997
-        rotation -9.736269996441467e-08 -9.742139998986723e-08 -0.9999999999999905 1.5707953071795946
+        translation 0.01 -0.02 -0.189997
         children [
           DEF BACK_WHEEL Transform {
             children [
@@ -366,6 +371,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_fl"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_FR DistanceSensor {
       translation -0.1 0.21 0.16
@@ -374,6 +383,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_fr"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_LF DistanceSensor {
       translation 0.183 0.21 0.11
@@ -381,6 +394,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_lf"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_LB DistanceSensor {
       translation 0.183 0.21 -0.07
@@ -388,6 +405,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_lb"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_RF DistanceSensor {
       translation -0.181 0.21 0.11
@@ -396,6 +417,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_rf"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     DEF DS_RB DistanceSensor {
       translation -0.181 0.21 -0.07
@@ -404,6 +429,10 @@ Robot {
         USE DS_SENSOR_SHAPE
       ]
       name "ds_rb"
+      lookupTable [
+        0 0 0
+        2 255 0
+      ]
     }
     Receiver {
     }
