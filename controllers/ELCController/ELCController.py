@@ -4,11 +4,9 @@ import time
 
 # Константы
 # Максимальное значение передних датчиков
-FRONT_DISTANCE_SENSOR_MIN_VALUE = 70
+FRONT_DISTANCE_SENSOR_MAX_VALUE = 50
 # Максимальное значение боковых данчиков
-SIDE_DISTANCE_SENSOR_MIN_VALUE = 70
-#
-DISTANCE_SENSOR_MAX_VALUE = 200
+SIDE_DISTANCE_SENSOR_MAX_VALUE = 40
 # Соответсвие списка значений с датчиков по индексу
 LB = 0
 LF = 1
@@ -17,6 +15,10 @@ FC = 3
 FR = 4
 RF = 5
 RB = 6
+#
+DEFAULT = 0
+LEFT = -1
+RIGHT = 1
 
 
 class ELCBot(Robot):
@@ -41,8 +43,6 @@ class ELCBot(Robot):
         self.left_motor.setVelocity(0.0)
         self.right_motor.setPosition(float('inf'))
         self.right_motor.setVelocity(0.0)
-        self.left_ps.enable(self.time_step)
-        self.right_ps.enable(self.time_step)
         self.ds_fc.enable(self.time_step)
         self.ds_fl.enable(self.time_step)
         self.ds_fr.enable(self.time_step)
@@ -59,19 +59,26 @@ class Settings:
     speed = 0
     auto_move = False
     block_forward = False
-    inner_turn_mode = 0
-    divide_deviation = 0.17
-    end_wall = False
-    outer_turn_mode = 0
-    counter = 100
-    in_outer_turn = False
-    outer_turn_completed = False
-    ps_left_old = 0
-    ps_right_old = 0
+    turn_mode = DEFAULT
+    divide_deviant = 0.2
+    on_wall = DEFAULT
+    kd_for_wall = 0.975
+    kd_for_outer_turn = 2
+
+
+class PID:
+    kp = 0.1
+    ki = 0.022
+    kd = 0.97
+    integral = 0.0
+    old_y = 0.0
+    integral_min = -1.0
+    integral__max = 1.0
 
 
 elc_bot = ELCBot()
 settings = Settings()
+pid = PID()
 
 
 def print_ds():
@@ -166,72 +173,66 @@ def velocity_handler():
 
 def front_obstacle():
     global ds_values
-    return ds_values[FL] < FRONT_DISTANCE_SENSOR_MIN_VALUE or \
-           ds_values[FC] < FRONT_DISTANCE_SENSOR_MIN_VALUE or \
-           ds_values[FR] < FRONT_DISTANCE_SENSOR_MIN_VALUE
+    return ds_values[FL] < FRONT_DISTANCE_SENSOR_MAX_VALUE or \
+           ds_values[FC] < FRONT_DISTANCE_SENSOR_MAX_VALUE or \
+           ds_values[FR] < FRONT_DISTANCE_SENSOR_MAX_VALUE
 
 
 def left_obstacle():
     global ds_values
-    return ds_values[LF] < SIDE_DISTANCE_SENSOR_MIN_VALUE or \
-           ds_values[LB] < SIDE_DISTANCE_SENSOR_MIN_VALUE
+    return ds_values[LF] < SIDE_DISTANCE_SENSOR_MAX_VALUE or \
+           ds_values[LB] < SIDE_DISTANCE_SENSOR_MAX_VALUE
 
 
 def right_obstacle():
     global ds_values
-    return ds_values[RF] < SIDE_DISTANCE_SENSOR_MIN_VALUE or \
-           ds_values[RB] < SIDE_DISTANCE_SENSOR_MIN_VALUE
+    return ds_values[RF] < SIDE_DISTANCE_SENSOR_MAX_VALUE or \
+           ds_values[RB] < SIDE_DISTANCE_SENSOR_MAX_VALUE
 
 
 def left_equal():
     global ds_values
-    return abs(ds_values[LF] - ds_values[LB]) <= settings.divide_deviation
+    return abs(ds_values[LF] - ds_values[LB]) <= settings.divide_deviant
 
 
 def right_equal():
     global ds_values
-    return abs(ds_values[RF] - ds_values[RB]) <= settings.divide_deviation
+    return abs(ds_values[RF] - ds_values[RB]) <= settings.divide_deviant
 
 
-def get_outer_turn_mode():
+def end_wall():
     global ds_values
-    if ds_values[RB] <= SIDE_DISTANCE_SENSOR_MIN_VALUE and ds_values[RF] > DISTANCE_SENSOR_MAX_VALUE:
-        return 1
-    if ds_values[LB] <= SIDE_DISTANCE_SENSOR_MIN_VALUE and ds_values[LF] > DISTANCE_SENSOR_MAX_VALUE:
-        return -1
-    return 0
+    if ds_values[RF] > SIDE_DISTANCE_SENSOR_MAX_VALUE+ 20 >= ds_values[RB]:
+        return RIGHT
+    if ds_values[LF] > SIDE_DISTANCE_SENSOR_MAX_VALUE >= ds_values[LB]:
+        return LEFT
+    return DEFAULT
 
 
-def turn_90():
-    global ps_values
-    return abs(ps_values[0] - ps_values[1]) >= 12.5
+def evaluate_pid(distance):
+    global pid
+    error = distance - SIDE_DISTANCE_SENSOR_MAX_VALUE
 
+    up = pid.kp * error
 
-def complete_turn_90():
-    global settings, ps_values
-    print(ps_values[0], ps_values[1])
-    settings.ps_left_old = ps_values[0]
-    settings.ps_right_old = ps_values[1]
+    pid.integral -= error
+    if pid.integral > pid.integral__max:
+        pid.integral = pid.integral__max
+    else:
+        if pid.integral < pid.integral_min:
+            pid.integral = pid.integral_min
+    ui = pid.ki * pid.integral
 
-"""
-Нам нужно какое то действие по умолчанию.
-В движении вдоль отбойника это собственно движение вперед, оно по умолчанию, а угол поворота колес задается пид
-В детектировании препятсвий это движение вдоль линии, и если препятсятвие мешает объезжаем его и двигаемся опять
-В нашем случае движение по умолчанию какое?
-Окай, если движение вперед, то у нас может быть первоначальная ситуация, когда у робота нет стены рядом 
-и у нас нет угла поворота у нас есть просто поворот, тогда он будет крутиться на месте
-Самая оптимальная для нас стратегия это из лабы с обходом лабиринта:
-Едем вперед.
-Впереди препятствие.
-Приоритет поворота - направо
-Если справа нет препятствия - запускаем сценарий поворота направо на 90 градусов и разрежаем движение вперед
-Если справа есть, а слева нет - запускаем поворот налево на 90 градусов и разрежаем движение вперед
-Еще надо обработать условие, когда мы теряем направляющую стену, тогда мы должны проехать чутка вперед и развернуться
-И все это делается на циклах, и if
-Другого варианта я не вижу, потому что программа выполняется иттерационно и каждую итерацию должно быть какие то
-проверки которые соответсвенно менают какие то данные
-В общем тут как то все не тривиально и в целом капец. Я реально в отчаянии нужна помощь.
-"""
+    ud = pid.kd * error - pid.old_y
+    us = up + ui + ud
+    pid.old_y = error
+    if us >= 10:
+        us = 10
+    if us <= -10:
+        us = -10
+    # print(us)
+    return us
+
 
 while elc_bot.step(elc_bot.time_step) != -1:
     if elc_bot.receiver.getQueueLength() > 0:
@@ -263,90 +264,86 @@ while elc_bot.step(elc_bot.time_step) != -1:
                      elc_bot.ds_rf.getValue(),
                      elc_bot.ds_rb.getValue()]
 
-        ps_values = [elc_bot.left_ps.getValue() - settings.ps_left_old,
-                     elc_bot.right_ps.getValue() - settings.ps_right_old]
-
         if not settings.block_forward:
             if front_obstacle():
                 print("1 block forward")
                 settings.block_forward = True
                 continue
-            if get_outer_turn_mode() != 0:
-                print("1.1 end wall")
-                settings.block_forward = True
-                settings.end_wall = True
-                settings.outer_turn_mode = get_outer_turn_mode()
-                continue
-            if not front_obstacle():
-                settings.speed = 10
-                move_forward()
-                continue
-        if settings.block_forward:
-            if not settings.end_wall:
-                if settings.inner_turn_mode == 0:
-                    if not left_obstacle():
-                        print("3 left clear")
-                        settings.inner_turn_mode = -1
-                        settings.speed = 2
-                        turn_left()
-                        continue
-                    if not right_obstacle():
-                        print("2 right clear")
-                        settings.inner_turn_mode = 1
-                        settings.speed = 2
-                        turn_right()
-                        continue
-                if right_equal() and settings.inner_turn_mode == -1 and right_obstacle():
-                    print("4 stop turn")
-                    settings.inner_turn_mode = 0
-                    settings.block_forward = False
-                    complete_turn_90()
-                    stop()
-                    continue
 
-                if left_equal() and settings.inner_turn_mode == 1 and left_obstacle():
-                    print("5 stop turn")
-                    settings.inner_turn_mode = 0
-                    settings.block_forward = False
-                    complete_turn_90()
-                    stop()
-                    continue
-            if settings.end_wall:
-                if not settings.in_outer_turn:
-                    settings.speed = 2
+            if settings.on_wall == DEFAULT:
+                if not front_obstacle():
+                    if right_obstacle():
+                        pid.kd=settings.kd_for_wall
+                        settings.on_wall = RIGHT
+                        continue
+                    if left_obstacle():
+                        pid.kd = settings.kd_for_wall
+                        settings.on_wall = LEFT
+                        continue
+                    settings.speed = 10
                     move_forward()
-                if settings.outer_turn_mode == 1:
-                    if not right_obstacle():
-                        if settings.counter > 0:
-                            settings.counter -= 1
-                            continue
-                        if settings.counter == 0:
-                            settings.in_outer_turn = True
-                            turn_right()
-                        if settings.in_outer_turn and turn_90():
-                            print("im here")
-                            complete_turn_90()
-                            settings.in_outer_turn = False
-                            settings.counter = 100
-                            settings.block_forward = False
-                            settings.end_wall = False
-                            continue
-                if settings.outer_turn_mode == -1:
-                    if not left_obstacle():
-                        if settings.counter > 0:
-                            settings.counter -= 1
-                            continue
-                        if settings.counter == 0:
-                            settings.in_outer_turn = True
+                    continue
 
-                            turn_left()
-                        if settings.in_outer_turn and turn_90():
-                            print("im here")
-                            complete_turn_90()
-                            settings.in_outer_turn = False
-                            settings.counter = 100
-                            settings.block_forward = False
-                            settings.end_wall = False
-                            continue
+            if settings.on_wall == RIGHT:
+                if end_wall() == RIGHT:
+                    pid.kd = settings.kd_for_outer_turn
+                if end_wall() == DEFAULT:
+                    pid.kd = settings.kd_for_wall
+                settings.speed = 10
+                u = evaluate_pid(ds_values[RF])
+                if u < 0:
+                    elc_bot.left_motor.setVelocity(settings.speed - abs(u))
+                    elc_bot.right_motor.setVelocity(settings.speed)
+                if u > 0:
+                    elc_bot.left_motor.setVelocity(settings.speed)
+                    elc_bot.right_motor.setVelocity(settings.speed - abs(u))
+                if u == 0:
+                    elc_bot.left_motor.setVelocity(settings.speed)
+                    elc_bot.right_motor.setVelocity(settings.speed)
+            if settings.on_wall == LEFT:
+                settings.speed = 10
+                u = evaluate_pid(ds_values[LF])
+                if u < 0:
+                    elc_bot.left_motor.setVelocity(settings.speed)
+                    elc_bot.right_motor.setVelocity(settings.speed - abs(u))
+                if u > 0:
+                    elc_bot.left_motor.setVelocity(settings.speed - abs(u))
+                    elc_bot.right_motor.setVelocity(settings.speed)
+                if u == 0:
+                    elc_bot.left_motor.setVelocity(settings.speed)
+                    elc_bot.right_motor.setVelocity(settings.speed)
+
+        if settings.block_forward:
+            if settings.turn_mode == DEFAULT:
+
+                if not left_obstacle():
+                    print("3 left clear")
+                    settings.turn_mode = LEFT
+                    settings.speed = 2
+                    turn_left()
+                    continue
+
+                if not right_obstacle():
+                    print("2 right clear")
+                    settings.turn_mode = RIGHT
+                    settings.speed = 2
+                    turn_right()
+                    continue
+
+            if right_equal() and settings.turn_mode == LEFT and right_obstacle():
+                print("4 stop turn")
+                settings.turn_mode = DEFAULT
+                settings.block_forward = False
+                settings.on_wall = RIGHT
+                stop()
+                continue
+
+            if left_equal() and settings.turn_mode == RIGHT and left_obstacle():
+                print("5 stop turn")
+                settings.turn_mode = DEFAULT
+                settings.block_forward = False
+                settings.on_wall = LEFT
+                stop()
+                continue
 
     pass

@@ -2,8 +2,8 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation 1 0 0 4.71238898038469
-  position -4.864362322232888 13.891122324035562 -3.0494343473603776
+  orientation -0.9998720204533218 -0.011026126027206165 -0.011591689239454429 1.6209241541711243
+  position -5.2994160792660905 9.316891464513454 -3.0197589571081696
 }
 TexturedBackground {
   texture "factory"
@@ -47,8 +47,8 @@ RectangleArena {
   wallAppearance USE WALL_COLOR
 }
 Robot {
-  translation -3.78 0.05 -2.95
-  rotation 0 1 0 3.14159
+  translation -5.02057 0.05 -3.08415
+  rotation 0 1 0 1.57077
   children [
     DEF PLATFORM Shape {
       appearance PBRAppearance {
@@ -304,7 +304,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.21 0.020021300000000047 0.12000399999999976
+        translation -0.21 0.02002130000000006 0.12000399999999976
         rotation 1 0 0 0
         children [
           USE RUNNING_WHEEL
@@ -331,7 +331,7 @@ Robot {
                 }
                 geometry Sphere {
                   radius 0.017
-                  subdivision 25
+                  subdivision 5
                   ico FALSE
                 }
               }
