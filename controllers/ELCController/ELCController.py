@@ -1,7 +1,5 @@
 from controller import Robot
 
-import time
-
 # Константы
 # Максимальное значение передних датчиков
 FRONT_DISTANCE_SENSOR_MAX_VALUE = 50
@@ -15,7 +13,7 @@ FC = 3
 FR = 4
 RF = 5
 RB = 6
-#
+# Константы для обозначения сторон
 DEFAULT = 0
 LEFT = -1
 RIGHT = 1
@@ -83,17 +81,6 @@ settings = Settings()
 pid = PID()
 
 
-def print_ds():
-    global elc_bot
-    print("ds_lb: ", elc_bot.ds_lb.getValue())
-    print("ds_lf: ", elc_bot.ds_lf.getValue())
-    print("ds_fl: ", elc_bot.ds_fl.getValue())
-    print("ds_fc: ", elc_bot.ds_fc.getValue())
-    print("ds_fr: ", elc_bot.ds_fr.getValue())
-    print("ds_rf: ", elc_bot.ds_rf.getValue())
-    print("ds_rb: ", elc_bot.ds_rb.getValue())
-
-
 def stop():
     global elc_bot
     elc_bot.left_motor.setVelocity(0)
@@ -154,19 +141,28 @@ def speed_handler():
         set_speed(10)
 
 
-def velocity_handler():
+def move_handler():
     global settings
     if settings.message == 'W':
         print('I MOVE FORWARD!')
+        if front_obstacle():
+            stop()
+            return
         move_forward()
     elif settings.message == 'A':
         print('I TURN LEFT!')
+        if left_obstacle():
+            stop()
+            return
         turn_left()
     elif settings.message == 'S':
         print('I MOVE BACKWARD!')
         move_backward()
     elif settings.message == 'D':
         print('I TURN RIGHT!')
+        if right_obstacle():
+            stop()
+            right_equal()
         turn_right()
     elif settings.message == 'STOP':
         print('I STOP!')
@@ -243,11 +239,8 @@ while elc_bot.step(elc_bot.time_step) != -1:
         settings.auto_move = False
 
         speed_handler()
-        velocity_handler()
+        move_handler()
 
-        if settings.message == "PRINT":
-            print_ds()
-            settings.message = settings.prev_message
         if settings.message == "AUTO":
             print("AUTO MOVE MODE!")
             settings.auto_move = True

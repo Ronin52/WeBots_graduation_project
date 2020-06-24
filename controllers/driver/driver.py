@@ -49,8 +49,6 @@ class Driver(Supervisor):
                 message = "9"
             elif k == ord('0'):
                 message = "0"
-            elif k == ord('P'):
-                message = "PRINT"
             elif k == ord('M'):
                 message = "AUTO"
 
