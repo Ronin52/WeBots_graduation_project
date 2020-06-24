@@ -4,9 +4,11 @@ import time
 
 # Константы
 # Максимальное значение передних датчиков
-FRONT_DISTANCE_SENSOR_MAX_VALUE = 70
+FRONT_DISTANCE_SENSOR_MIN_VALUE = 70
 # Максимальное значение боковых данчиков
-SIDE_DISTANCE_SENSOR_MAX_VALUE = 70
+SIDE_DISTANCE_SENSOR_MIN_VALUE = 70
+#
+DISTANCE_SENSOR_MAX_VALUE = 200
 # Соответсвие списка значений с датчиков по индексу
 LB = 0
 LF = 1
@@ -39,6 +41,8 @@ class ELCBot(Robot):
         self.left_motor.setVelocity(0.0)
         self.right_motor.setPosition(float('inf'))
         self.right_motor.setVelocity(0.0)
+        self.left_ps.enable(self.time_step)
+        self.right_ps.enable(self.time_step)
         self.ds_fc.enable(self.time_step)
         self.ds_fl.enable(self.time_step)
         self.ds_fr.enable(self.time_step)
@@ -55,8 +59,15 @@ class Settings:
     speed = 0
     auto_move = False
     block_forward = False
-    turn_mode = 0
-    divide_deviant = 0.15
+    inner_turn_mode = 0
+    divide_deviation = 0.17
+    end_wall = False
+    outer_turn_mode = 0
+    counter = 100
+    in_outer_turn = False
+    outer_turn_completed = False
+    ps_left_old = 0
+    ps_right_old = 0
 
 
 elc_bot = ELCBot()
@@ -155,32 +166,72 @@ def velocity_handler():
 
 def front_obstacle():
     global ds_values
-    return ds_values[FL] < FRONT_DISTANCE_SENSOR_MAX_VALUE or \
-           ds_values[FC] < FRONT_DISTANCE_SENSOR_MAX_VALUE or \
-           ds_values[FR] < FRONT_DISTANCE_SENSOR_MAX_VALUE
+    return ds_values[FL] < FRONT_DISTANCE_SENSOR_MIN_VALUE or \
+           ds_values[FC] < FRONT_DISTANCE_SENSOR_MIN_VALUE or \
+           ds_values[FR] < FRONT_DISTANCE_SENSOR_MIN_VALUE
 
 
 def left_obstacle():
     global ds_values
-    return ds_values[LF] < SIDE_DISTANCE_SENSOR_MAX_VALUE or \
-           ds_values[LB] < SIDE_DISTANCE_SENSOR_MAX_VALUE
+    return ds_values[LF] < SIDE_DISTANCE_SENSOR_MIN_VALUE or \
+           ds_values[LB] < SIDE_DISTANCE_SENSOR_MIN_VALUE
 
 
 def right_obstacle():
     global ds_values
-    return ds_values[RF] < SIDE_DISTANCE_SENSOR_MAX_VALUE or \
-           ds_values[RB] < SIDE_DISTANCE_SENSOR_MAX_VALUE
+    return ds_values[RF] < SIDE_DISTANCE_SENSOR_MIN_VALUE or \
+           ds_values[RB] < SIDE_DISTANCE_SENSOR_MIN_VALUE
 
 
 def left_equal():
     global ds_values
-    return abs(ds_values[LF] - ds_values[LB]) <= settings.divide_deviant
+    return abs(ds_values[LF] - ds_values[LB]) <= settings.divide_deviation
 
 
 def right_equal():
     global ds_values
-    return abs(ds_values[RF] - ds_values[RB]) <= settings.divide_deviant
+    return abs(ds_values[RF] - ds_values[RB]) <= settings.divide_deviation
 
+
+def get_outer_turn_mode():
+    global ds_values
+    if ds_values[RB] <= SIDE_DISTANCE_SENSOR_MIN_VALUE and ds_values[RF] > DISTANCE_SENSOR_MAX_VALUE:
+        return 1
+    if ds_values[LB] <= SIDE_DISTANCE_SENSOR_MIN_VALUE and ds_values[LF] > DISTANCE_SENSOR_MAX_VALUE:
+        return -1
+    return 0
+
+
+def turn_90():
+    global ps_values
+    return abs(ps_values[0] - ps_values[1]) >= 12.5
+
+
+def complete_turn_90():
+    global settings, ps_values
+    print(ps_values[0], ps_values[1])
+    settings.ps_left_old = ps_values[0]
+    settings.ps_right_old = ps_values[1]
+
+"""
+Нам нужно какое то действие по умолчанию.
+В движении вдоль отбойника это собственно движение вперед, оно по умолчанию, а угол поворота колес задается пид
+В детектировании препятсвий это движение вдоль линии, и если препятсятвие мешает объезжаем его и двигаемся опять
+В нашем случае движение по умолчанию какое?
+Окай, если движение вперед, то у нас может быть первоначальная ситуация, когда у робота нет стены рядом 
+и у нас нет угла поворота у нас есть просто поворот, тогда он будет крутиться на месте
+Самая оптимальная для нас стратегия это из лабы с обходом лабиринта:
+Едем вперед.
+Впереди препятствие.
+Приоритет поворота - направо
+Если справа нет препятствия - запускаем сценарий поворота направо на 90 градусов и разрежаем движение вперед
+Если справа есть, а слева нет - запускаем поворот налево на 90 градусов и разрежаем движение вперед
+Еще надо обработать условие, когда мы теряем направляющую стену, тогда мы должны проехать чутка вперед и развернуться
+И все это делается на циклах, и if
+Другого варианта я не вижу, потому что программа выполняется иттерационно и каждую итерацию должно быть какие то
+проверки которые соответсвенно менают какие то данные
+В общем тут как то все не тривиально и в целом капец. Я реально в отчаянии нужна помощь.
+"""
 
 while elc_bot.step(elc_bot.time_step) != -1:
     if elc_bot.receiver.getQueueLength() > 0:
@@ -212,63 +263,90 @@ while elc_bot.step(elc_bot.time_step) != -1:
                      elc_bot.ds_rf.getValue(),
                      elc_bot.ds_rb.getValue()]
 
-        """
-        Нам нужно какое то действие по умолчанию.
-        В движении вдоль отбойника это собственно движение вперед, оно по умолчанию, а угол поворота колес задается пид
-        В детектировании препятсвий это движение вдоль линии, и если препятсятвие мешает объезжаем его и двигаемся опять
-        В нашем случае движение по умолчанию какое?
-        Окай, если движение вперед, то у нас может быть первоначальная ситуация, когда у робота нет стены рядом 
-        и у нас нет угла поворота у нас есть просто поворот, тогда он будет крутиться на месте
-        Самая оптимальная для нас стратегия это из лабы с обходом лабиринта:
-        Едем вперед.
-        Впереди препятствие.
-        Приоритет поворота - направо
-        Если справа нет препятствия - запускаем сценарий поворота направо на 90 градусов и разрежаем движение вперед
-        Если справа есть, а слева нет - запускаем поворот налево на 90 градусов и разрежаем движение вперед
-        Еще надо обработать условие, когда мы теряем направляющую стену, тогда мы должны проехать чутка вперед и развернуться
-        И все это делается на циклах, и if
-        Другого варианта я не вижу, потому что программа выполняется иттерационно и каждую итерацию должно быть какие то
-        проверки которые соответсвенно менают какие то данные
-        В общем тут как то все не тривиально и в целом капец. Я реально в отчаянии нужна помощь.
-        """
+        ps_values = [elc_bot.left_ps.getValue() - settings.ps_left_old,
+                     elc_bot.right_ps.getValue() - settings.ps_right_old]
 
-        if front_obstacle() and not settings.block_forward:
-            print("1 block forward")
-            settings.block_forward = True
-
-        if not front_obstacle() and not settings.block_forward:
-            settings.speed = 10
-            move_forward()
-
+        if not settings.block_forward:
+            if front_obstacle():
+                print("1 block forward")
+                settings.block_forward = True
+                continue
+            if get_outer_turn_mode() != 0:
+                print("1.1 end wall")
+                settings.block_forward = True
+                settings.end_wall = True
+                settings.outer_turn_mode = get_outer_turn_mode()
+                continue
+            if not front_obstacle():
+                settings.speed = 10
+                move_forward()
+                continue
         if settings.block_forward:
-            if settings.turn_mode == 0:
-
-                if not left_obstacle():
-                    print("3 left clear")
-                    settings.turn_mode = -1
-                    settings.speed = 2
-                    turn_left()
+            if not settings.end_wall:
+                if settings.inner_turn_mode == 0:
+                    if not left_obstacle():
+                        print("3 left clear")
+                        settings.inner_turn_mode = -1
+                        settings.speed = 2
+                        turn_left()
+                        continue
+                    if not right_obstacle():
+                        print("2 right clear")
+                        settings.inner_turn_mode = 1
+                        settings.speed = 2
+                        turn_right()
+                        continue
+                if right_equal() and settings.inner_turn_mode == -1 and right_obstacle():
+                    print("4 stop turn")
+                    settings.inner_turn_mode = 0
+                    settings.block_forward = False
+                    complete_turn_90()
+                    stop()
                     continue
 
-                if not right_obstacle():
-                    print("2 right clear")
-                    settings.turn_mode = 1
-                    settings.speed = 2
-                    turn_right()
+                if left_equal() and settings.inner_turn_mode == 1 and left_obstacle():
+                    print("5 stop turn")
+                    settings.inner_turn_mode = 0
+                    settings.block_forward = False
+                    complete_turn_90()
+                    stop()
                     continue
+            if settings.end_wall:
+                if not settings.in_outer_turn:
+                    settings.speed = 2
+                    move_forward()
+                if settings.outer_turn_mode == 1:
+                    if not right_obstacle():
+                        if settings.counter > 0:
+                            settings.counter -= 1
+                            continue
+                        if settings.counter == 0:
+                            settings.in_outer_turn = True
+                            turn_right()
+                        if settings.in_outer_turn and turn_90():
+                            print("im here")
+                            complete_turn_90()
+                            settings.in_outer_turn = False
+                            settings.counter = 100
+                            settings.block_forward = False
+                            settings.end_wall = False
+                            continue
+                if settings.outer_turn_mode == -1:
+                    if not left_obstacle():
+                        if settings.counter > 0:
+                            settings.counter -= 1
+                            continue
+                        if settings.counter == 0:
+                            settings.in_outer_turn = True
 
-            if right_equal() and settings.turn_mode == -1 and right_obstacle():
-                print("4 stop turn")
-                settings.turn_mode = 0
-                settings.block_forward = False
-                stop()
-                continue
-
-            if left_equal() and settings.turn_mode == 1 and left_obstacle():
-                print("5 stop turn")
-                settings.turn_mode = 0
-                settings.block_forward = False
-                stop()
-                continue
+                            turn_left()
+                        if settings.in_outer_turn and turn_90():
+                            print("im here")
+                            complete_turn_90()
+                            settings.in_outer_turn = False
+                            settings.counter = 100
+                            settings.block_forward = False
+                            settings.end_wall = False
+                            continue
 
     pass

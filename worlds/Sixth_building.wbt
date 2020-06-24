@@ -3,7 +3,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position -5.38330277570018 7.326863338023087 -3.7119133781893705
+  position -4.864362322232888 13.891122324035562 -3.0494343473603776
 }
 TexturedBackground {
   texture "factory"
@@ -47,7 +47,7 @@ RectangleArena {
   wallAppearance USE WALL_COLOR
 }
 Robot {
-  translation -3.77 0.05 -3.54
+  translation -3.78 0.05 -2.95
   rotation 0 1 0 3.14159
   children [
     DEF PLATFORM Shape {
@@ -331,7 +331,7 @@ Robot {
                 }
                 geometry Sphere {
                   radius 0.017
-                  subdivision 5
+                  subdivision 25
                   ico FALSE
                 }
               }
