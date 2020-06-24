@@ -51,6 +51,8 @@ class ELCBot(Robot):
         self.ds_rf.enable(self.time_step)
         self.ds_rb.enable(self.time_step)
         self.receiver.enable(self.time_step)
+        self.camera = self.getCamera('camera')
+        self.camera.enable(4 * self.time_step)
 
 
 class Settings:
@@ -202,7 +204,7 @@ def right_equal():
 
 def end_wall():
     global ds_values
-    if ds_values[RF] > SIDE_DISTANCE_SENSOR_MAX_VALUE+ 20 >= ds_values[RB]:
+    if ds_values[RF] > SIDE_DISTANCE_SENSOR_MAX_VALUE + 20 >= ds_values[RB]:
         return RIGHT
     if ds_values[LF] > SIDE_DISTANCE_SENSOR_MAX_VALUE >= ds_values[LB]:
         return LEFT
@@ -230,7 +232,6 @@ def evaluate_pid(distance):
         us = 10
     if us <= -10:
         us = -10
-    # print(us)
     return us
 
 
@@ -248,11 +249,6 @@ while elc_bot.step(elc_bot.time_step) != -1:
             print_ds()
             settings.message = settings.prev_message
         if settings.message == "AUTO":
-            # PID вдоль стены
-            # Обход периметра по часовой стрелке
-            # с минимальным расстоянием от стены
-            # Внешний угол - PID + поворот за угол
-            # Внутренний угол - обход препятствий + поворот на 90
             print("AUTO MOVE MODE!")
             settings.auto_move = True
     if settings.auto_move:
@@ -266,14 +262,13 @@ while elc_bot.step(elc_bot.time_step) != -1:
 
         if not settings.block_forward:
             if front_obstacle():
-                print("1 block forward")
                 settings.block_forward = True
                 continue
 
             if settings.on_wall == DEFAULT:
                 if not front_obstacle():
                     if right_obstacle():
-                        pid.kd=settings.kd_for_wall
+                        pid.kd = settings.kd_for_wall
                         settings.on_wall = RIGHT
                         continue
                     if left_obstacle():
@@ -317,21 +312,18 @@ while elc_bot.step(elc_bot.time_step) != -1:
             if settings.turn_mode == DEFAULT:
 
                 if not left_obstacle():
-                    print("3 left clear")
                     settings.turn_mode = LEFT
                     settings.speed = 2
                     turn_left()
                     continue
 
                 if not right_obstacle():
-                    print("2 right clear")
                     settings.turn_mode = RIGHT
                     settings.speed = 2
                     turn_right()
                     continue
 
             if right_equal() and settings.turn_mode == LEFT and right_obstacle():
-                print("4 stop turn")
                 settings.turn_mode = DEFAULT
                 settings.block_forward = False
                 settings.on_wall = RIGHT
@@ -339,7 +331,6 @@ while elc_bot.step(elc_bot.time_step) != -1:
                 continue
 
             if left_equal() and settings.turn_mode == RIGHT and left_obstacle():
-                print("5 stop turn")
                 settings.turn_mode = DEFAULT
                 settings.block_forward = False
                 settings.on_wall = LEFT
