@@ -232,6 +232,13 @@ def evaluate_pid(distance):
 
 
 while elc_bot.step(elc_bot.time_step) != -1:
+    ds_values = [elc_bot.ds_lb.getValue(),
+                 elc_bot.ds_lf.getValue(),
+                 elc_bot.ds_fl.getValue(),
+                 elc_bot.ds_fc.getValue(),
+                 elc_bot.ds_fr.getValue(),
+                 elc_bot.ds_rf.getValue(),
+                 elc_bot.ds_rb.getValue()]
     if elc_bot.receiver.getQueueLength() > 0:
         settings.prev_message = settings.message
         settings.message = elc_bot.receiver.getData().decode('utf-8')
@@ -245,14 +252,6 @@ while elc_bot.step(elc_bot.time_step) != -1:
             print("AUTO MOVE MODE!")
             settings.auto_move = True
     if settings.auto_move:
-        ds_values = [elc_bot.ds_lb.getValue(),
-                     elc_bot.ds_lf.getValue(),
-                     elc_bot.ds_fl.getValue(),
-                     elc_bot.ds_fc.getValue(),
-                     elc_bot.ds_fr.getValue(),
-                     elc_bot.ds_rf.getValue(),
-                     elc_bot.ds_rb.getValue()]
-
         if not settings.block_forward:
             if front_obstacle():
                 settings.block_forward = True
