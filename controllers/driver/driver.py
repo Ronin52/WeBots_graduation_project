@@ -11,7 +11,6 @@ class Driver(Supervisor):
         self.keyboard = self.getKeyboard()
 
     def run(self):
-        self.displayHelp()
         previous_message = ''
 
         while True:
