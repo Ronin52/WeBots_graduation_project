@@ -3,8 +3,9 @@ WorldInfo {
 }
 Viewpoint {
   orientation 1 0 0 4.71238898038469
-  position 4.257669365809002 33.39223912447635 -0.0680736907235865
+  position -2.2571067348882408 23.999987453642365 -1.8561172546467593
   follow "elc-bot"
+  followType "None"
 }
 TexturedBackground {
   texture "factory"
@@ -48,8 +49,8 @@ RectangleArena {
   wallAppearance USE WALL_COLOR
 }
 Robot {
-  translation -3.95057 0.05 -3.08414
-  rotation 0 1 0 3.14157
+  translation -3.72061 0.05 -1.78412
+  rotation 0 -1 0 -1.570775307179586
   children [
     DEF PLATFORM Shape {
       appearance PBRAppearance {
@@ -264,7 +265,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.21 0.020020500000000042 0.1200039999999998
+        translation 0.21 0.020020500000000118 0.12000399999999942
         rotation 1 0 0 0
         children [
           DEF RUNNING_WHEEL Transform {
@@ -305,7 +306,7 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.21 0.02002130000000006 0.12000399999999976
+        translation -0.21 0.02002130000000016 0.12000399999999929
         rotation 1 0 0 0
         children [
           USE RUNNING_WHEEL
